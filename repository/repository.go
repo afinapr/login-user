@@ -2,8 +2,8 @@ package repository
 
 import (
 	"fmt"
-	Config "login_user/database"
-	Models "login_user/models"
+	Config "login-user/database"
+	Models "login-user/models"
 
 	_ "github.com/go-sql-driver/mysql"
 )

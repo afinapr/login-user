@@ -3,9 +3,9 @@ package usecase
 import (
 	"fmt"
 
-	// mod "login_user/mod"
-	mod "login_user/models"
-	repo "login_user/repository"
+	// mod "login-user/mod"
+	mod "login-user/models"
+	repo "login-user/repository"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

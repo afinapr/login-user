@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	Config "login_user/database"
-	ro "login_user/router"
+	Config "login-user/database"
+	ro "login-user/router"
 
 	"github.com/jinzhu/gorm"
 	"github.com/subosito/gotenv"
