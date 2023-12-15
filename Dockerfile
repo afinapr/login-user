@@ -17,7 +17,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /login-user .
 FROM alpine:3.4
 RUN apk update -y
 
-EXPOSE 8080
+EXPOSE 30145
 
 # Copy our static executable
 COPY --from=builder /login-user /login-user

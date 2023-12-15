@@ -45,33 +45,33 @@ func UpdateLocation(c *gin.Context) {
 	}
 }
 
-func Login(c *gin.Context) {
-	var login mod.LoginModel
-	var resp mod.Response
-	c.BindJSON(&login)
+// func Login(c *gin.Context) {
+// 	var login mod.LoginModel
+// 	var resp mod.Response
+// 	c.BindJSON(&login)
 
-	username := login.Username
-	password := login.Password
+// 	username := login.Username
+// 	password := login.Password
 
-	result := repo.ReadUsername(username, password)
+// 	result := repo.ReadUsername(username, password)
 
-	if result.Username != username {
-		resp.Status = "400"
-		resp.Message = "Username/Password tidak valid"
-		c.JSON(http.StatusBadRequest, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
-		return
-	}
+// 	if result.Username != username {
+// 		resp.Status = "400"
+// 		resp.Message = "Username/Password tidak valid"
+// 		c.JSON(http.StatusBadRequest, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
+// 		return
+// 	}
 
-	if result.Password == password {
-		resp.Status = "200"
-		resp.Message = "Login Berhasil"
-		c.JSON(http.StatusOK, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
-	} else {
-		resp.Status = "400"
-		resp.Message = "Username/Password tidak valid"
-		c.JSON(http.StatusBadRequest, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
-		return
+// 	if result.Password == password {
+// 		resp.Status = "200"
+// 		resp.Message = "Login Berhasil"
+// 		c.JSON(http.StatusOK, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
+// 	} else {
+// 		resp.Status = "400"
+// 		resp.Message = "Username/Password tidak valid"
+// 		c.JSON(http.StatusBadRequest, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
+// 		return
 
-	}
+// 	}
 
-}
+// }

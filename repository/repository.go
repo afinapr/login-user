@@ -10,7 +10,7 @@ import (
 
 func CreateUser(user *Models.User) (err error) {
 	query := "INSERT INTO user_location(username, password, latitude, longitude) VALUES (?,?,?,?)"
-	err = Config.DB.Exec(query, user.Username, user.Password, user.Latitude, user.Longitude).Error
+	_, err = Config.DB.Query(query, user.Username, user.Password, user.Latitude, user.Longitude)
 	if err != nil {
 		return fmt.Errorf("create : %v", err.Error())
 	}
@@ -20,7 +20,7 @@ func CreateUser(user *Models.User) (err error) {
 func UpdateLocation(user *Models.Location) (err error) {
 	// var user Models.Location
 	query := "UPDATE user_location SET longitude = ? , latitude = ? WHERE username = ?"
-	err = Config.DB.Exec(query, user.Longitude, user.Latitude, user.Username).Error
+	_, err = Config.DB.Query(query, user.Longitude, user.Latitude, user.Username)
 
 	if err != nil {
 		return fmt.Errorf("update : %v", err.Error())
@@ -43,17 +43,17 @@ func UpdateLocation(user *Models.Location) (err error) {
 
 // }
 
-func ReadUsername(username string, passsword string) Models.User {
-	var user Models.User
-	query := Config.DB.Table("user_location").Where("username = ?", username).Where("password = ? ", passsword)
-	err := query.Scan(&user).Error
-	if err != nil {
-		fmt.Println(err.Error())
+// func ReadUsername(username string, passsword string) Models.User {
+// 	var user Models.User
+// 	query := Config.DB.Query("SELECT * FROM ")("user_location").Where("username = ?", username).Where("password = ? ", passsword)
+// 	err := query.Scan(&user).Error
+// 	if err != nil {
+// 		fmt.Println(err.Error())
 
-		// return fmt.Errorf("get : %v", err.Error())
-	}
-	return user
-}
+// 		// return fmt.Errorf("get : %v", err.Error())
+// 	}
+// 	return user
+// }
 
 // GetUserByNamePassword
 // func GetUserByNamePassword(user *Models.User) (err error) {
