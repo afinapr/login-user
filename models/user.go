@@ -24,8 +24,8 @@ type Location struct {
 	Longitude float64 `json:"longitude"`
 }
 
-type ResponseAll struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-	Data    []User `json:"data"`
-}
+// type ResponseAll struct {
+// 	Status  string `json:"status"`
+// 	Message string `json:"message"`
+// 	Data    []User `json:"data"`
+// }

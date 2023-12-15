@@ -8,12 +8,10 @@ import (
 
 type DBConfig struct {
 	Name     string `env:"DB_NAME" default:"db_1"`
-	Adapter  string `env:"DB_DRIVER" default:"mysql"`
-	Host     string `env:"DB_HOST" default:"localhost"`
-	Port     string `env:"DB_PORT" default:"3306"`
+	Host     string `env:"DB_HOST" default:"localhost"` //DIHAPUS
+	Port     string `env:"DB_PORT" default:"3306"`      //DIHAPUS
 	User     string `env:"DB_USER"`
 	Password string `env:"DB_PASSWORD"`
-	SslMode  string `env:"DB_SSL_MODE"`
 }
 
 type ServerConfig struct {

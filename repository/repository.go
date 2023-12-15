@@ -18,14 +18,30 @@ func CreateUser(user *Models.User) (err error) {
 }
 
 func UpdateLocation(user *Models.Location) (err error) {
+	// var user Models.Location
 	query := "UPDATE user_location SET longitude = ? , latitude = ? WHERE username = ?"
-	err = Config.DB.Exec(query, user.Username, user.Longitude, user.Latitude).Error
+	err = Config.DB.Exec(query, user.Longitude, user.Latitude, user.Username).Error
 
 	if err != nil {
 		return fmt.Errorf("update : %v", err.Error())
 	}
+
 	return err
+
 }
+
+// func UpdateLocation(long float64, lat float64, username string) err error {
+// 	var user Models.Location
+// 	query := "UPDATE user_location SET longitude = ? , latitude = ? WHERE username = ?"
+// 	err = Config.DB.Exec(query, long, lat, username).Error
+
+// 	if err != nil {
+// 		fmt.Println(err.Error())
+// 	}
+
+// 	return err
+
+// }
 
 func ReadUsername(username string, passsword string) Models.User {
 	var user Models.User
@@ -33,7 +49,7 @@ func ReadUsername(username string, passsword string) Models.User {
 	err := query.Scan(&user).Error
 	if err != nil {
 		fmt.Println(err.Error())
-		return user
+
 		// return fmt.Errorf("get : %v", err.Error())
 	}
 	return user

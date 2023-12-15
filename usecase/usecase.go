@@ -27,24 +27,27 @@ func CreateUser(c *gin.Context) {
 }
 
 // UpdateUser ... Update the user information
-// func UpdateLocation(c *gin.Context) {
-// 	var loc mod.Location
-// 	var resp mod.Response
-// 	c.BindJSON(&loc)
-// 	err := repo.UpdateLocation(&loc)
-// 	if err != nil {
-// 		c.JSON(http.StatusNotFound, gin.H{"data": loc})
+func UpdateLocation(c *gin.Context) {
+	var loc mod.Location
+	var resp mod.Response
+	c.BindJSON(&loc)
 
-// 	} else {
-// 		resp.Status = "200"
-// 		resp.Message = "Sucess retrieve data"
-// 		c.JSON(http.StatusOK, loc)
-// 	}
-// }
+	result := repo.UpdateLocation(&loc)
+
+	if result != nil {
+		resp.Status = "200"
+		resp.Message = "Sucess retrieve data"
+		c.JSON(http.StatusOK, gin.H{"Status": resp.Status, "Message": resp.Message, "Data": loc})
+	} else {
+		resp.Status = "400"
+		resp.Message = "Failed updated data"
+		c.JSON(http.StatusBadRequest, gin.H{"Status": resp.Status, "Message": resp.Message, "Data": loc})
+	}
+}
 
 func Login(c *gin.Context) {
 	var login mod.LoginModel
-	var resp mod.ResponseAll
+	var resp mod.Response
 	c.BindJSON(&login)
 
 	username := login.Username
