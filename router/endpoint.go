@@ -23,7 +23,7 @@ func EndPoint(usecase *us.Usecase) *gin.Engine {
 	grp1 := r.Group("/api")
 	{
 		grp1.POST("user", usecase.CreateUser)
-		// grp1.POST("user/login", us.Login)
+		grp1.POST("user/login", usecase.Login)
 		grp1.POST("user/update", usecase.UpdateLocation)
 	}
 	return r

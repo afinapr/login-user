@@ -41,47 +41,38 @@ func (u *Usecase) UpdateLocation(c *gin.Context) {
 	var loc mod.Location
 	var resp mod.Response
 	c.BindJSON(&loc)
-
-	result := u.Repo.UpdateLocation(&loc)
-
-	if result != nil {
+	err := u.Repo.UpdateLocation(&loc)
+	if err != nil {
+		fmt.Println(err.Error())
+		resp.Status = "500"
+		resp.Message = err.Error()
+		c.JSON(http.StatusInternalServerError, resp)
+	} else {
 		resp.Status = "200"
 		resp.Message = "Sucess retrieve data"
-		c.JSON(http.StatusOK, gin.H{"Status": resp.Status, "Message": resp.Message, "Data": loc})
-	} else {
-		resp.Status = "400"
-		resp.Message = "Failed updated data"
-		c.JSON(http.StatusBadRequest, gin.H{"Status": resp.Status, "Message": resp.Message, "Data": loc})
+		c.JSON(http.StatusOK, resp)
 	}
 }
 
-// func Login(c *gin.Context) {
-// 	var login mod.LoginModel
-// 	var resp mod.Response
-// 	c.BindJSON(&login)
+func (u *Usecase) Login(c *gin.Context) {
+	var login mod.LoginModel
+	var resp mod.Response
+	c.BindJSON(&login)
 
-// 	username := login.Username
-// 	password := login.Password
+	username := login.Username
+	password := login.Password
 
-// 	result := repo.ReadUsername(username, password)
+	result := u.Repo.ReadUsername(username, password)
 
-// 	if result.Username != username {
-// 		resp.Status = "400"
-// 		resp.Message = "Username/Password tidak valid"
-// 		c.JSON(http.StatusBadRequest, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
-// 		return
-// 	}
+	if result.Username == username && result.Password == password {
+		resp.Status = "200"
+		resp.Message = "Login Berhasil"
+		c.JSON(http.StatusOK, resp)
+	} else {
+		resp.Status = "400"
+		resp.Message = "Username/Password tidak valid"
+		c.JSON(http.StatusBadRequest, resp)
+		return
 
-// 	if result.Password == password {
-// 		resp.Status = "200"
-// 		resp.Message = "Login Berhasil"
-// 		c.JSON(http.StatusOK, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
-// 	} else {
-// 		resp.Status = "400"
-// 		resp.Message = "Username/Password tidak valid"
-// 		c.JSON(http.StatusBadRequest, gin.H{"Status": resp.Status, "Message": resp.Message, "data": result})
-// 		return
-
-// 	}
-
-// }
+	}
+}

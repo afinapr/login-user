@@ -35,6 +35,17 @@ func (r *Repository) UpdateLocation(user *Models.Location) (err error) {
 	return err
 }
 
+func (r *Repository) ReadUsername(username string, password string) Models.LoginModel {
+
+	var user Models.LoginModel
+	err := r.Db.QueryRow("SELECT username, password FROM user_location WHERE username = ? and password = ?", username, password).Scan(&user.Username, &user.Password)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	return user
+}
+
 // func UpdateLocation(long float64, lat float64, username string) err error {
 // 	var user Models.Location
 // 	query := "UPDATE user_location SET longitude = ? , latitude = ? WHERE username = ?"
