@@ -3,7 +3,6 @@ package usecase
 import (
 	"fmt"
 
-	// mod "login-user/mod"
 	mod "login-user/models"
 	repo "login-user/repository"
 	"net/http"
@@ -11,14 +10,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Usecase struct {
+	Repo repo.Repository
+}
+
+func NewUsecase(repo *repo.Repository) *Usecase {
+	return &Usecase{Repo: *repo}
+}
+
 // CreateUser ... Create User
-func CreateUser(c *gin.Context) {
+func (u *Usecase) CreateUser(c *gin.Context) {
 	var user mod.User
 	var resp mod.Response
 	c.BindJSON(&user)
-	err := repo.CreateUser(&user)
+	err := u.Repo.CreateUser(&user)
 	if err != nil {
 		fmt.Println(err.Error())
+		resp.Status = "500"
+		resp.Message = err.Error()
+		c.JSON(http.StatusInternalServerError, resp)
 	} else {
 		resp.Status = "200"
 		resp.Message = "Sucess retrieve data"
@@ -27,12 +37,12 @@ func CreateUser(c *gin.Context) {
 }
 
 // UpdateUser ... Update the user information
-func UpdateLocation(c *gin.Context) {
+func (u *Usecase) UpdateLocation(c *gin.Context) {
 	var loc mod.Location
 	var resp mod.Response
 	c.BindJSON(&loc)
 
-	result := repo.UpdateLocation(&loc)
+	result := u.Repo.UpdateLocation(&loc)
 
 	if result != nil {
 		resp.Status = "200"

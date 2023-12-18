@@ -32,7 +32,7 @@ Thumbs.db
 
 # Applications
 *.app
-*.exe
+__debug_bin.exe
 *.war
 
 # Large media files
@@ -47,3 +47,4 @@ Thumbs.db
 
 /vendor
 .env
+*.json

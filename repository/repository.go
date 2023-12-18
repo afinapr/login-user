@@ -1,33 +1,38 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
-	Config "login-user/database"
 	Models "login-user/models"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func CreateUser(user *Models.User) (err error) {
+type Repository struct {
+	Db *sql.DB
+}
+
+func NewRepository(db *sql.DB) *Repository {
+	return &Repository{Db: db}
+}
+
+func (r *Repository) CreateUser(user *Models.User) (err error) {
+
 	query := "INSERT INTO user_location(username, password, latitude, longitude) VALUES (?,?,?,?)"
-	_, err = Config.DB.Query(query, user.Username, user.Password, user.Latitude, user.Longitude)
+	_, err = r.Db.Query(query, user.Username, user.Password, user.Latitude, user.Longitude)
 	if err != nil {
 		return fmt.Errorf("create : %v", err.Error())
 	}
 	return err
 }
 
-func UpdateLocation(user *Models.Location) (err error) {
-	// var user Models.Location
+func (r *Repository) UpdateLocation(user *Models.Location) (err error) {
 	query := "UPDATE user_location SET longitude = ? , latitude = ? WHERE username = ?"
-	_, err = Config.DB.Query(query, user.Longitude, user.Latitude, user.Username)
-
+	_, err = r.Db.Query(query, user.Longitude, user.Latitude, user.Username)
 	if err != nil {
 		return fmt.Errorf("update : %v", err.Error())
 	}
-
 	return err
-
 }
 
 // func UpdateLocation(long float64, lat float64, username string) err error {

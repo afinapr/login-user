@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
-	db "login-user/database"
+	"login-user/database"
+	"login-user/repository"
 	router "login-user/router"
+	"login-user/usecase"
 	"os"
 
 	g "github.com/incubus8/go/pkg/gin"
@@ -12,24 +14,20 @@ import (
 	"github.com/subosito/gotenv"
 )
 
-var err error
-
 func main() {
 	gotenv.Load()
-	db.Init()
-	// Config.DB, err = gorm.Open("mysql", Config.DbURL(Config.BuildDBConfig()))
-	// if err != nil {
-	// 	fmt.Println("Status:", err)
-	// }
-
-	// r := ro.EndPoint()
-	// //running
-	// r.Run()
+	db, err := database.Init()
+	if err != nil {
+		log.Fatal().Msg(err.Error())
+	}
+	defer db.Close()
+	r := repository.NewRepository(db)
+	uc := usecase.NewUsecase(r)
 
 	addr := fmt.Sprintf("%s:%s", os.Getenv("SERVICE_HOST"), os.Getenv("SERVICE_PORT"))
 	conf := g.Config{
 		ListenAddr: addr,
-		Handler:    router.EndPoint(),
+		Handler:    router.EndPoint(uc),
 		OnStarting: func() {
 			log.Info().Msg("Your service is up and running at " + addr)
 		},
