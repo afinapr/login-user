@@ -59,20 +59,25 @@ func (u *Usecase) Login(c *gin.Context) {
 	var resp mod.Response
 	c.BindJSON(&login)
 
-	username := login.Username
-	password := login.Password
+	// username := login.Username
+	// password := login.Password
 
-	result := u.Repo.ReadUsername(username, password)
-
-	if result.Username == username && result.Password == password {
+	_, err := u.Repo.ReadUsername(login.Username, login.Password)
+	if err != nil {
+		fmt.Println(err.Error())
+		resp.Status = "500"
+		resp.Message = err.Error()
+		c.JSON(http.StatusInternalServerError, resp)
+	} else {
+		// result.Username == username && result.Password == password {
 		resp.Status = "200"
 		resp.Message = "Login Berhasil"
 		c.JSON(http.StatusOK, resp)
-	} else {
-		resp.Status = "400"
-		resp.Message = "Username/Password tidak valid"
-		c.JSON(http.StatusBadRequest, resp)
-		return
+		// } else if result.Username != username && result.Password != password {
+		// 	resp.Status = "400"
+		// 	resp.Message = "Username/Password tidak valid"
+		// 	c.JSON(http.StatusBadRequest, resp)
 
+		// }
 	}
 }
